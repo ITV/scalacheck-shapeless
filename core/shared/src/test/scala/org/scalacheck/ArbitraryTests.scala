@@ -17,7 +17,7 @@ object ArbitraryTests extends TestSuite {
   import ScalacheckShapeless._
 
 
-  lazy val expectedSimpleArb =
+  lazy val expectedSimpleArb: Arbitrary[Simple] =
     MkArbitrary.genericProduct(
       Generic[Simple],
       MkHListArbitrary.hcons(

@@ -1,4 +1,5 @@
 
+import sbt.Global
 import sbtcrossproject.crossProject
 
 inThisBuild(List(
@@ -10,17 +11,19 @@ inThisBuild(List(
     "Alexandre Archambault",
     "",
     url("https://github.com/alexarchambault")
-  ))
+  )),
+    Global / onChangedBuildSource := ReloadOnSourceChanges
 ))
+
 
 lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(
-    scalaVersion := Scala.scala213,
+    scalaVersion := Scala.scala3,
     crossScalaVersions := Scala.all,
     scalacOptions ++= Seq(
       "-deprecation"
     ),
-    name := "scalacheck-shapeless_1.15",
+    name := "scalacheck-shapeless_2.0",
     moduleName := name.value, // keep the '.' in name ^
     libraryDependencies ++= Seq(
       Deps.scalacheck.value,
