@@ -12,16 +12,19 @@ inThisBuild(List(
     "",
     url("https://github.com/alexarchambault")
   )),
-    Global / onChangedBuildSource := ReloadOnSourceChanges
+    Global / onChangedBuildSource := ReloadOnSourceChanges,
+  scalaVersion := Scala.scala3
 ))
 
 
-lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+lazy val core = crossProject(JVMPlatform)
   .settings(
     scalaVersion := Scala.scala3,
-    crossScalaVersions := Scala.all,
+    //crossScalaVersions := Scala.all,
     scalacOptions ++= Seq(
-      "-deprecation"
+      "-deprecation",
+      "-source:3.0",
+      "-no-indent"
     ),
     name := "scalacheck-shapeless_2.0",
     moduleName := name.value, // keep the '.' in name ^
@@ -31,15 +34,9 @@ lazy val core = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       Deps.utest.value % Test
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
-    mimaPreviousArtifacts := Set.empty
+    mimaPreviousArtifacts := Set.empty,
+    semanticdbVersion := "4.4.24"
   )
-  .jsSettings(
-    scalaJSStage.in(Test) := FastOptStage
-  )
-
-lazy val coreJVM = core.jvm
-lazy val coreJS = core.js
-
 
 disablePlugins(MimaPlugin)
 skip.in(publish) := true
